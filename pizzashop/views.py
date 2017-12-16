@@ -1,3 +1,5 @@
+from django.contrib.auth import logout as django_logout
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from pizzashop.forms import CheckoutContactForm
@@ -80,7 +82,7 @@ def checkout(request):
                                                           defaults={'first_name': name})
             
             order = Order.objects.create(customer=user, status='CR')
-            message = "Телефон:" + str(phone) + ' Имя:' + name + ' Адрес:' + address + ' ID заказа:' + str(order.id)
+            message = "Телефон:" + str(phone) + ' Имя:' + name + ' Адрес:' + address + ' ID заказа:' + 'http://127.0.0.1:8000/admin/pizzashop/orderitem/?order__id=' + str(order.id)
             
             for name, value in data.items():
                 if name.startswith("item_in_basket_"):
@@ -110,3 +112,10 @@ def checkout(request):
 def thanks(request):
     session_key = request.session.session_key
     return render(request, 'pizzashop/thanks.html', locals())
+
+
+@login_required
+def logout(request):
+    session_key = request.session.session_key
+    django_logout(request)
+    return redirect('/admin/')

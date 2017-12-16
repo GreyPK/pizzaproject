@@ -20,7 +20,7 @@ class Item(models.Model):
     title = models.CharField(max_length=30, verbose_name='Название')
     description = models.TextField(max_length=300, verbose_name='Описание', blank=True)
     price = models.PositiveSmallIntegerField(default=0, verbose_name='Цена')
-    image = models.ImageField(upload_to='pizzashop/', blank=True, verbose_name='Изображение', default='')
+    image = models.ImageField(upload_to='pizzashop/', blank=False, verbose_name='Изображение', default='')
 
     def image_tag(self):
         return u'<img  src="%s"/>' % self.image.url
@@ -38,6 +38,7 @@ class Item(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders', verbose_name='Клиент')
     items = models.ManyToManyField(Item, through='OrderItem', verbose_name='Товары')
+    comment = models.TextField(max_length=300, verbose_name='Комментарий', blank=True)
 
     CREATED = 'CR'
     NOT_CONFIRMED = 'NCF'
