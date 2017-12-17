@@ -3,7 +3,6 @@ from pizzashop.models import Customer, Order, Item, OrderItem, BasketItem
 
 
 class CustomerAdmin(admin.ModelAdmin):
-    # list_display = ['first_name', 'phone', 'address']
     list_display = [field.name for field in Customer._meta.fields]
     search_fields = ['phone', 'address', 'last_name']
     list_filter = ['phone']
@@ -14,7 +13,6 @@ class CustomerAdmin(admin.ModelAdmin):
 
 class ItemAdmin (admin.ModelAdmin):
     list_display = ['title', 'description', 'price', 'image_tag']
-    # list_display = [field.name for field in Item._meta.fields]
     fields = ('title', 'description', 'price', 'image', 'image_tag')
     readonly_fields = ('image_tag',)
     search_fields = ['title', 'price', 'description']
@@ -31,18 +29,21 @@ class ItemAdmin (admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    # list_display = ['customer', 'items', 'status']
     list_display = [field.name for field in Order._meta.fields]
-    search_fields = ['customer', 'status']
-    list_filter = ['status']
+    search_fields = ['customer__id', 'customer__phone', 'customer__address', 'customer__last_name', 'status']
+    list_filter = ['status', 'customer__id', 'customer__phone']
 
 
 class OrderItemAdmin (admin.ModelAdmin):
-    # list_display = ['item', 'order', 'count', 'price_per_item', 'total_price', 'is_active', 'created', 'updated']
     list_display = [field.name for field in OrderItem._meta.fields]
-    # search_fields = ['order__id']
-    search_fields = ['item', 'order__id', 'count', 'price_per_item', 'total_price', 'is_active', 'created', 'updated']
+    search_fields = ['item__id', 'order__id', 'count', 'price_per_item', 'total_price', 'is_active', 'created', 'updated']
     list_filter = ['order__id', 'order__customer__phone']
+
+    class Media:
+        js = ('admin/js/admin.js',)
+        css = {
+            'all': ('admin/css/admin.css',)
+        }
 
 
 admin.site.register(Customer, CustomerAdmin)

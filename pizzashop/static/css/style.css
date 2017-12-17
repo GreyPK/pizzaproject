@@ -72,10 +72,6 @@ img {
 		width: 380px;
 	}
 }
-/*.mdl-cell--of {*/
-	/*overflow-x:auto;*/
-	/*overflow-y: hidden;*/
-/*}*/
 .mdl-icon {
 	vertical-align: bottom;
 	font-family: 'Material Icons', sans-serif;
@@ -153,7 +149,6 @@ img {
     display: none;
   }
 
-
   .mdl-data-table tbody tr {
     height: auto;
   }
@@ -186,7 +181,6 @@ img {
     padding-right: 18px;
   }
 }
-
 .mdl-layout2 {
 	display: flex;
 	align-items: center;
